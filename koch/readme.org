@@ -1,7 +1,20 @@
-* Koch snowflake
+* Koch snowflakes
+
+** Quadratic type 1
 Alphabet: F
 Constants: + -
 Start: F
 Rules: F -> F+F-F-F+F
 
-[[file:gen.png]]
+[[file:quad1.png][3, 4, 5 iterations of quadratic type 1 curve]]
+
+** Quadratic type 2
+Alphabet: F
+Constants: + -
+Start: F
+Rules: F -> F+F-F-FF+F+F-F
+
+[[file:quad2.png][1, 2, 3 iterations of quadratic type 2 curve]]
+
+* Encoding data in IFS curves
+This feels very inefficient, but I had the idea and implementation seems simple enough.

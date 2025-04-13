@@ -1,26 +1,42 @@
-iter([], []).
-iter([f|Xs], [f, +, f, -, f, -, f, +, f | Ys]) :- iter(Xs, Ys).
-iter([+|Xs], [+|Ys]) :- iter(Xs, Ys).
-iter([-|Xs], [-|Ys]) :- iter(Xs, Ys).
+kochquad1(f, "len 0 rlineto ").
+kochquad1(+, "90 rotate ").
+kochquad1(-, "270 rotate ").
 
-itern(X, X, 0).
-itern(X, Y, N) :- N > 0, !, N1 is N-1, iter(X, X1), itern(X1, Y, N1).
+kq1rule(f, [f, +, f, -, f, -, f, +, f]).
+kq2rule(f, [f, +, f, -, f, -, f, f, +, f, +, f, -, f]).
 
-printps(S, []) :- format(S, "stroke~ngrestore~n", []), nl.
-printps(S, [+, f|Xs]) :- format(S, "90 rotate len 0 rlineto~n", []),
-                         printps(S, Xs).
-printps(S, [-, f|Xs]) :- format(S, "270 rotate len 0 rlineto~n", []),
-                         printps(S, Xs).
+% iter([], []).
+% iter([f|Xs], [f, +, f, -, f, -, f, +, f | Ys]) :- iter(Xs, Ys).
+% iter([+|Xs], [+|Ys]) :- iter(Xs, Ys).
+% iter([-|Xs], [-|Ys]) :- iter(Xs, Ys).
 
-drawkoch(Stream, X0, Y0, Len, N) :-
-    itern([f], [f|Z], N),
+iter(_, [], []).
+iter(F, [f|Xs], Ys) :- call(F, f, Y), iter(F, Xs, Ys1), append(Y, Ys1, Ys).
+iter(F, [+|Xs], [+|Ys]) :- iter(F, Xs, Ys).
+iter(F, [-|Xs], [-|Ys]) :- iter(F, Xs, Ys).
+
+itern(_, X, X, 0).
+itern(F, X, Y, N) :- N > 0, !, N1 is N-1, iter(F, X, X1), itern(F, X1, Y, N1).
+
+printps(S, []) :- write(S, "stroke grestore ").
+printps(S, [X|Xs]) :- kochquad1(X, L), write(S, L), printps(S, Xs).
+
+draw(Stream, F, X0, Y0, Len, N) :- %start at (X0, Y0) with _f_ Len, N iterations.
+    itern(F, [f], Z, N),
     format(Stream, "gsave~n~d ~d translate newpath 0 0 moveto~n", [X0, Y0]),
-    format(Stream, "/len ~d def len 0 rlineto~n", [Len]),
+    format(Stream, "/len ~d def~n", [Len]),
     printps(Stream, Z).
 
-drawexample(Fname) :-
+drawquad1(Fname) :-
     open(Fname, write, Stream),
-    drawkoch(Stream, 20, 600, 54, 2),
-    drawkoch(Stream, 20, 300, 18, 3),
-    drawkoch(Stream, 20, 20, 6, 4),
+    draw(Stream, kq1rule, 20, 600, 18, 3),
+    draw(Stream, kq1rule, 20, 300, 6, 4),
+    draw(Stream, kq1rule, 20, 20, 2, 5),
+    close(Stream).
+
+drawquad2(Fname) :-
+    open(Fname, write, Stream),
+    draw(Stream, kq2rule, 20, 710, 128, 1),
+    draw(Stream, kq2rule, 20, 440, 32, 2),
+    draw(Stream, kq2rule, 20, 165, 8, 3),
     close(Stream).
