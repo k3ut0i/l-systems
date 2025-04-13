@@ -1,0 +1,7 @@
+* Gosper-Peano Curve
+
+#+CAPTION: 3, 4 iterations of gosper-peano curve
+[[./gosper3n4.png]]
+
+#+CAPTION: 5th iteration of gosper-peano curve
+[[./gosper5.png]]

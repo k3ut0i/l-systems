@@ -1,14 +1,9 @@
-kochquad1(f, "len 0 rlineto ").
-kochquad1(+, "90 rotate ").
-kochquad1(-, "270 rotate ").
+kochquad(f, "len 0 rlineto ").
+kochquad(+, "90 rotate ").
+kochquad(-, "270 rotate ").
 
 kq1rule(f, [f, +, f, -, f, -, f, +, f]).
 kq2rule(f, [f, +, f, -, f, -, f, f, +, f, +, f, -, f]).
-
-% iter([], []).
-% iter([f|Xs], [f, +, f, -, f, -, f, +, f | Ys]) :- iter(Xs, Ys).
-% iter([+|Xs], [+|Ys]) :- iter(Xs, Ys).
-% iter([-|Xs], [-|Ys]) :- iter(Xs, Ys).
 
 iter(_, [], []).
 iter(F, [f|Xs], Ys) :- call(F, f, Y), iter(F, Xs, Ys1), append(Y, Ys1, Ys).
@@ -19,7 +14,7 @@ itern(_, X, X, 0).
 itern(F, X, Y, N) :- N > 0, !, N1 is N-1, iter(F, X, X1), itern(F, X1, Y, N1).
 
 printps(S, []) :- write(S, "stroke grestore ").
-printps(S, [X|Xs]) :- kochquad1(X, L), write(S, L), printps(S, Xs).
+printps(S, [X|Xs]) :- kochquad(X, L), write(S, L), printps(S, Xs).
 
 draw(Stream, F, X0, Y0, Len, N) :- %start at (X0, Y0) with _f_ Len, N iterations.
     itern(F, [f], Z, N),

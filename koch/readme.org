@@ -5,8 +5,8 @@ Alphabet: F
 Constants: + -
 Start: F
 Rules: F -> F+F-F-F+F
-
-[[file:quad1.png][3, 4, 5 iterations of quadratic type 1 curve]]
+#+CAPTION: 3, 4, 5 iterations of quadratic type 1 curve
+[[file:quad1.png]]
 
 ** Quadratic type 2
 Alphabet: F
@@ -14,7 +14,8 @@ Constants: + -
 Start: F
 Rules: F -> F+F-F-FF+F+F-F
 
-[[file:quad2.png][1, 2, 3 iterations of quadratic type 2 curve]]
+#+CAPTION: 1, 2, 3 iterations of quadratic type 2 curve
+[[file:quad2.png]]
 
 * Encoding data in IFS curves
 This feels very inefficient, but I had the idea and implementation seems simple enough.
