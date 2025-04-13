@@ -1,0 +1,7 @@
+* Koch snowflake
+Alphabet: F
+Constants: + -
+Start: F
+Rules: F -> F+F-F-F+F
+
+[[file:gen.png]]
